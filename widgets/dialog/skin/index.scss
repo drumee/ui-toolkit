@@ -1,5 +1,5 @@
 @use '@drumee/ui-styles/src/mixins';
-@use '../../toolkit/skin' as *;
+@use '../../../skin' as *;
 
 .dtk-butler-dialog {
   @include dtk-butler-main;

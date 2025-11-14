@@ -1,4 +1,4 @@
-const { header } = require("../../toolkit/skeleton")
+const { header } = require("../../../skeletons");
 
 function __skl_welcome_signup(ui) {
   const fig = ui.fig.family
