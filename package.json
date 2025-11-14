@@ -10,6 +10,9 @@
   "keywords": [
     "Drumee UI toolkit"
   ],
+  "scripts": {
+    "release": "git push && npm publish --access public && npm version patch"
+  },
   "author": "Somanos Sar <somanos.sar@drumee.com>",
   "devDependencies": {
     "@babel/core": "^7.19.1",
