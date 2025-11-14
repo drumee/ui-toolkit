@@ -2,7 +2,7 @@
 
 require('./skin');
 
-export class dtk_pwmeter extends LetcBox {
+export default class dtk_pwsetter extends LetcBox {
 
   /**
    ** @param {object} opt
@@ -22,28 +22,38 @@ export class dtk_pwmeter extends LetcBox {
 
   /**
    * 
-   * @param {*} pw 
    */
-  check(pw) {
-    let rate = 100 * (pw.length / 20) + 5;
+  check() {
+    let { password, password2 } = this.getData()
+    let rate = 100 * (password.length / 20) + 5;
     if (rate > 100) rate = 100;
     this.__strengthGrade.el.style.width = `${rate}%`;
     let min = 6;
     this._isValid = 0;
-    if (pw.length < min) {
+    if (password.length < min) {
       this.__strengthState.set({ content: LOCALE.WEAK })
       this.__strengthGrade.el.dataset.strenght = "0";
-      this.__errorMessage.set({ content: LOCALE.PASSWORD_AT_LEAST.format(min) })
-    } else if (pw.length <= 10) {
+      this.__messageText.set({ content: LOCALE.PASSWORD_AT_LEAST.format(min) });
+      this.__messageText.el.dataset.status = "error";
+    } else if (password.length <= 10) {
       this.__strengthState.set({ content: LOCALE.STRONG })
       this.__strengthGrade.el.dataset.strenght = "1";
-      this.__errorMessage.set({ content: "" })
+      this.__messageText.set({ content: "" })
       this._isValid = 1;
+      this.__messageText.el.dataset.status = "normal";
     } else {
       this.__strengthGrade.el.dataset.strenght = "2";
       this.__strengthState.set({ content: LOCALE.VERY_STRONG })
-      this.__errorMessage.set({ content: "" });
+      this.__messageText.set({ content: "" });
       this._isValid = 1;
+      this.__messageText.el.dataset.status = "normal";
+    }
+    this.debug("AAA:PWSETTER", { password, password2 })
+    if (password2 && password == password2)  {
+      this.__messageIcon.el.dataset.state = "1";
+      this.__messageText.set({ content: LOCALE.PASSWORD_MATCH })
+    }else{
+      this.__messageIcon.el.dataset.state = "0";
     }
   }
 
@@ -51,16 +61,16 @@ export class dtk_pwmeter extends LetcBox {
    * 
    * @returns 
    */
-  isValid(){
+  isValid() {
     return this._isValid
   }
-  
+
   /**
    * 
    * @param {*} pw 
    */
   message(content) {
-    this.__errorMessage.set({ content })
+    this.__messageText.set({ content })
   }
 
   /**
@@ -72,6 +82,9 @@ export class dtk_pwmeter extends LetcBox {
     this.debug(`onUiEvent service = ${service}`, cmd, this);
 
     switch (service) {
+      case 'password-input':
+        this.check()
+        break;
       default:
         this.triggerHandlers({ service })
     }

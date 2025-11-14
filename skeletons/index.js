@@ -1,3 +1,5 @@
+const haptic = 3000;
+
 /**
  * 
  * @param {*} ui 
@@ -136,6 +138,7 @@ export function entry(ui, opt) {
   })
 }
 
+
 /**
 * 
 * @param {*} ui 
@@ -165,4 +168,77 @@ export function password(ui, opt) {
     ]
   });
 }
+
+
+/**
+* 
+* @param {*} ui 
+* @param {*} cn 
+* @param {*} passmeter 
+* @returns 
+*/
+export function password_box(ui, opt) {
+  const fig = ui.fig.family
+  return Skeletons.Box.Y({
+    className: `${fig}__form`,
+    kids: [
+      entry(ui, {
+        placeholder: LOCALE.EMAIL,
+        name: _a.email,
+        sys_pn: _a.email,
+        service: _a.input,
+        value: ui.mget(_a.email) || ""
+      }),
+      password(ui, {
+        placeholder: LOCALE.PASSWORD,
+        name: _a.password,
+        sys_pn: _a.password,
+        interactive: 1,
+        service: 'password-input'
+      }),
+      password(ui, {
+        placeholder: LOCALE.PASSWORD_CONFIRM,
+        name: "password2",
+        sys_pn: "password2",
+      }),
+      { kind: 'dtk_pwsetter', sys_pn: 'pwsetter' },
+      button(ui, {
+        label: LOCALE.CREATE_ACCOUNT,
+        service: 'create-account',
+        type: _a.email,
+        sys_pn: "commit-button",
+        haptic
+      }),
+    ]
+  })
+}
+
+/**
+ * 
+ * @param {*} ui 
+ * @param {*} opt 
+ * @returns 
+ */
+export function dialog_box(ui, opt) {
+  const fig = ui.fig.family
+  const { title, message, buttons, content } = opt;
+  const Buttons = Skeletons.Box.X({
+    className: `${fig}__buttons`,
+    kids: buttons
+  })
+
+  return Skeletons.Box.Y({
+    className: `${fig}__main`,
+    debug: __filename,
+    kids: [
+      header(ui, title),
+      Skeletons.Element({ className: `${fig}__message`, content: message || LOCALE.ERROR_SERVER }),
+      content,
+      Buttons
+    ]
+  })
+
+}
+
+
 

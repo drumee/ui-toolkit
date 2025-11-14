@@ -39,7 +39,20 @@ function __skl_welcome_signup(ui) {
       Skeletons.Element({
         className: `${fig}__resend-text resend`,
         content: LOCALE.RESEND_CODE,
-        service: _a.resend
+        service: "resend-code"
+      }),
+    ]
+  })
+
+  const tips = Skeletons.Box.X({
+    className: `${fig}__tips`,
+    kidsOpt: {
+      tagName: _K.tag.span,
+    },
+    kids: [
+      Skeletons.Note({
+        sys_pn: "tips-text",
+        className: `${fig}__tips-text`,
       }),
     ]
   })
@@ -62,6 +75,7 @@ function __skl_welcome_signup(ui) {
       header(ui, title || LOCALE.VALIDATION_SENT_TO),
       message,
       code,
+      tips,
       resend
     ]
   })

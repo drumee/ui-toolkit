@@ -3,7 +3,7 @@
 
 .dtk-butler-dialog {
   @include dtk-butler-main;
-
+  @include dtk-butler-button;
 
   &__message {
     font-weight: 400;

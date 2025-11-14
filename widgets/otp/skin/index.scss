@@ -44,6 +44,27 @@
     }
   }
 
+  &__tips {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    &-text {
+      font-weight: 400;
+      font-style: normal;
+      font-size: 16px;
+      line-height: 26px;
+      letter-spacing: 1px;
+      width: 100%;
+
+      &[data-error="1"] {
+        color: var(--red-500);
+        font-weight: bold;
+        cursor: pointer;
+      }
+    }
+  }
+
   &__resend {
     width: 100%;
     justify-content: start;

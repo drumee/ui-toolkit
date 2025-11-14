@@ -24,12 +24,18 @@
 
   &__main {
     top: 180px;
+
+    &[data-device="mobile"] {
+      top: 0;
+      gap: var(--spacer-3);
+    }
+
     justify-content: start;
     align-items: center;
     width: 100%;
     max-width: 480px;
     border-width: 1px;
-    gap: var(--spacer-8);
+    gap: var(--spacer-5);
     background-color: var(--white);
     border: 1px solid var(--neutral-200);
     padding: var(--spacer-7);
@@ -97,6 +103,7 @@
   &__buttons {
     gap: var(--spacer-6);
     width: 100%;
+    justify-content: center;
   }
 
 

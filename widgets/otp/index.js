@@ -1,7 +1,7 @@
 
 require('./skin');
-const Common = require("..")
-export class dtk_otp extends Common {
+const { dtk_common } = require("..")
+export default class dtk_otp extends dtk_common {
 
   /**
    ** @param {object} opt
@@ -45,8 +45,21 @@ export class dtk_otp extends Common {
 
   /**
    * 
+   * @param {*} msg 
    */
-  checkForm(api) {
+  displayMessage(msg, error = 0) {
+    this.__tipsText.set({ content: msg });
+    this.__tipsText.el.dataset.error = error;
+    setTimeout(() => {
+      this.__tipsText.set({ content: '' });
+      this.__tipsText.el.dataset.error = error;
+    }, 3000)
+  }
+
+  /**
+   * 
+   */
+  checkForm() {
     this.ensurePart("digits").then((p) => {
       let res = [];
       for (let c of p.children.toArray()) {
@@ -55,9 +68,19 @@ export class dtk_otp extends Common {
           res.push(v)
         }
       }
+      let api = this.mget(_a.api)
+      let payload = this.mget('payload')
+      this.debug("AAA:59 checkForm", payload, res, api)
       if (res.length >= 6) {
         if (api) {
-          return this.postService(api, { otp: res.join('') }, { async: 1 })
+          return this.postService(api, { ...payload, code: res.join('') }, { async: 1 }).then((data) => {
+            this.debug("AAA:153 OTP verified", data)
+            let service = this.mget(_a.service) || 'otp-verified';
+            this.triggerHandlers({ data, service })
+          }).catch((e) => {
+            this.warn("AAA:157 OTP verify error", e)
+            this.triggerHandlers({ service: 'otp-failed', error: e })
+          })
         }
       }
     })
@@ -107,6 +130,18 @@ export class dtk_otp extends Common {
           this.checkForm()
         })
         break;
+      case "resend-code":
+        let { email } = this.mget('payload')
+        this.postService(SERVICE.otp.send, { email }).then((data) => {
+          this.mset({ payload: data })
+          this.displayMessage(LOCALE.NEW_CODE_RESENT)
+        }).catch((e) => {
+          this.displayMessage(LOCALE.UNKNOWN_ERROR, 1)
+          this.warn("AAA:104 Error sending OTP", e)
+        })
+        break;
+      default:
+        this.triggerHandlers({ ...args, service })
     }
   }
 

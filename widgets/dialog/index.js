@@ -4,10 +4,9 @@
  * @class __welcome_signup
  * @extends __welcome_interact
  */
-const Common = require("..")
 require('./skin');
-
-export class dtk_butler_dialog extends Common {
+const { dtk_common } = require("..")
+export default class dtk_butler_dialog extends dtk_common {
 
   /**
    ** @param {object} opt

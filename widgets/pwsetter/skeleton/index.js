@@ -1,3 +1,4 @@
+const { password } = require("../../../skeletons");
 
 /**
 * 
@@ -7,9 +8,29 @@
 */
 function passmeter(ui, opt) {
   let fig = `${ui.fig.family}`
+  const form = Skeletons.Box.Y({
+    className: `${fig}__form`,
+    kids: [
+      password(ui, {
+        placeholder: LOCALE.PASSWORD,
+        name: _a.password,
+        sys_pn: _a.password,
+        interactive: 1,
+        service: 'password-input'
+      }),
+      password(ui, {
+        placeholder: LOCALE.PASSWORD_CONFIRM,
+        name: "password2",
+        sys_pn: "password2",
+        interactive: 1,
+        service: 'password-input'
+      }),
+    ]
+  })
   return Skeletons.Box.Y({
     className: `${fig}__main`,
     kids: [
+      form,
       Skeletons.Box.X({
         className: `${fig}__dashboard`,
         kids: [
@@ -33,11 +54,23 @@ function passmeter(ui, opt) {
           })
         ]
       }),
-      Skeletons.Note({
-        className: `${fig}__error`,
-        content: "",
-        sys_pn: "error-message"
-      }),
+      Skeletons.Box.X({
+        className: `${fig}__dashboard`,
+        kids: [
+          Skeletons.Button.Svg({
+            ico: "checked-circle",
+            className: `${fig}__message-icon`,
+            content: "",
+            sys_pn: "message-icon",
+            state: 0
+          }),
+          Skeletons.Note({
+            className: `${fig}__message-text`,
+            content: "",
+            sys_pn: "message-text"
+          }),
+        ]
+      })
     ]
   })
 };

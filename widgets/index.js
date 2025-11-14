@@ -2,7 +2,7 @@
 /**
  * Common class
  */
-class signup_common extends LetcBox {
+export class dtk_common extends LetcBox {
 
   /**
    * 
@@ -28,4 +28,3 @@ class signup_common extends LetcBox {
   }
 }
 
-module.exports = signup_common
