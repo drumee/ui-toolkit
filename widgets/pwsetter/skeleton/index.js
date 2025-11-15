@@ -40,7 +40,6 @@ function passmeter(ui, opt) {
       haptic
     })
   }
-  ui.debug("AAA:43", (ui.mget(_a.api) && ui.mget(_a.label)));
   return Skeletons.Box.Y({
     className: `${fig}__main`,
     kids: [
@@ -50,9 +49,9 @@ function passmeter(ui, opt) {
         kids: [Skeletons.Box.X({
           className: `${fig}__dashboard`,
           kids: [
-            Skeletons.Element({
+            Skeletons.Note({
               className: `${fig}__topic`,
-              content: LOCALE.PASSWORD_STRENGTH
+              sys_pn: "topic"
             }),
             Skeletons.Note({
               className: `${fig}__strength-state`,

@@ -51,6 +51,7 @@ export default class dtk_pwsetter extends LetcBox {
     if (!password2 || password != password2) {
       this._isValid = 0;
     }
+    this.__topic.set({ content: LOCALE.PASSWORD_STRENGTH })
     if (this._isValid) {
       this.__messageIcon.el.dataset.state = "1";
       this.__messageText.set({ content: LOCALE.PASSWORD_MATCH })
