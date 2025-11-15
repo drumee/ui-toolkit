@@ -28,6 +28,19 @@ function passmeter(ui, opt) {
       }),
     ]
   })
+  let commit;
+  if (ui.mget(_a.api) && ui.mget(_a.label)) {
+    commit = button(ui, {
+      label,
+      className: `${fig}__button`,
+      priority: 'secondary full-width',
+      service: _e.commit,
+      type: _a.email,
+      sys_pn: "commit-button",
+      haptic
+    })
+  }
+  ui.debug("AAA:43", (ui.mget(_a.api) && ui.mget(_a.label)));
   return Skeletons.Box.Y({
     className: `${fig}__main`,
     kids: [
@@ -75,15 +88,7 @@ function passmeter(ui, opt) {
           ]
         })]
       }),
-      button(ui, {
-        label,
-        className: `${fig}__button`,
-        priority: 'secondary full-width',
-        service: _e.commit,
-        type: _a.email,
-        sys_pn: "commit-button",
-        haptic
-      }),
+      commit
     ]
   })
 };

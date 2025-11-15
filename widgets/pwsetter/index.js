@@ -53,11 +53,11 @@ export default class dtk_pwsetter extends LetcBox {
     }
     if (this._isValid) {
       this.__messageIcon.el.dataset.state = "1";
-      this.__commitButton.el.dataset.state = "1";
       this.__messageText.set({ content: LOCALE.PASSWORD_MATCH })
+      if (this.__commitButton) this.__commitButton.el.dataset.state = "1";
     } else {
       this.__messageIcon.el.dataset.state = "0";
-      this.__commitButton.el.dataset.state = "0";
+      if (this.__commitButton) this.__commitButton.el.dataset.state = "0";
     }
   }
 
@@ -76,6 +76,9 @@ export default class dtk_pwsetter extends LetcBox {
   message(content, status = "normal") {
     this.__messageText.set({ content })
     this.__messageText.el.dataset.status = status;
+    if (status !== "normal") {
+      this.__messageIcon.el.dataset.state = "0";
+    }
   }
 
   /**
