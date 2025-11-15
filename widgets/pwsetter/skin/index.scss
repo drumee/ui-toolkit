@@ -1,4 +1,9 @@
+@use '@drumee/ui-styles/src/mixins';
+@use '../../../skin' as *;
+
 .dtk-pwsetter {
+  @include dtk-butler-button;
+
   &__ui {
     width: 100%;
   }
@@ -12,6 +17,7 @@
     text-align: center;
     letter-spacing: 1px;
     color: var(--neutral-600);
+    gap: var(--spacer-4);
   }
 
   &__topic {
@@ -79,7 +85,17 @@
   &__form {
     gap: var(--spacer-4);
     width: 100%;
-    margin-bottom: var(--spacer-4);
+  }
+
+  &__button-main {
+    &[data-state="0"] {
+      pointer-events: none;
+    }
+
+    &[data-state="1"] {
+      background-color: var(--primary-500);
+      color: var(--white);
+    }
   }
 
   &__entry-main {

@@ -49,11 +49,16 @@ export default class dtk_pwsetter extends LetcBox {
       this.__messageText.el.dataset.status = "normal";
     }
     this.debug("AAA:PWSETTER", { password, password2 })
-    if (password2 && password == password2)  {
+    if (!password2 || password != password2) {
+      this._isValid = 0;
+    }
+    if (this._isValid) {
       this.__messageIcon.el.dataset.state = "1";
+      this.__commitButton.el.dataset.state = "1";
       this.__messageText.set({ content: LOCALE.PASSWORD_MATCH })
-    }else{
+    } else {
       this.__messageIcon.el.dataset.state = "0";
+      this.__commitButton.el.dataset.state = "0";
     }
   }
 
@@ -84,6 +89,19 @@ export default class dtk_pwsetter extends LetcBox {
     switch (service) {
       case 'password-input':
         this.check()
+        break;
+      case _e.commit:
+        let { api, payload } = this.model.toJSON();
+        if (api) {
+          payload = { ...payload, ...this.getData() };
+          this.postService(api, { ...payload }).then((data) => {
+            this.debug("AAA:PWSETTER SUBMITED", data)
+            this.triggerHandlers()
+          }).catch((err) => {
+            this.debug("AAA:PWSETTER SUBMIT ERROR", err)
+            this.triggerHandlers()
+          })
+        }
         break;
       default:
         this.triggerHandlers({ service })

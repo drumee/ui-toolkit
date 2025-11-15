@@ -142,6 +142,10 @@
       }
     }
 
+    &.full-width {
+      width: 100%;
+    }
+
     &.secondary {
       justify-content: center;
       background-color: var(--neutral-200);
