@@ -91,6 +91,12 @@ export default class dtk_pwsetter extends LetcBox {
     switch (service) {
       case 'password-input':
         this.check()
+        if (cmd.status == _e.commit) {
+          let service = this.mget(_a.service) || _e.commit;
+          this.triggerHandlers({ service })
+        } else {
+          this.triggerHandlers({ service })
+        }
         break;
       case _e.commit:
         let { api, payload } = this.model.toJSON();
@@ -101,6 +107,7 @@ export default class dtk_pwsetter extends LetcBox {
           }).catch((error) => {
             this.triggerHandlers({ error })
           })
+          return
         }
         break;
       default:
