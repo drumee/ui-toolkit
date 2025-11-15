@@ -22,7 +22,6 @@ export default class dtk_otp extends dtk_common {
         c.once("input:ready", () => {
           c._input[0].onpaste = (e) => {
             setTimeout(() => {
-              this.debug("OM ZZZ PASTE", e, c.getValue())
               let value = c.getValue() || '';
               if (!/[0-9]{1,6}/.test(value)) {
                 c.setValue("")
@@ -70,16 +69,17 @@ export default class dtk_otp extends dtk_common {
       }
       let api = this.mget(_a.api)
       let payload = this.mget('payload')
-      this.debug("AAA:59 checkForm", payload, res, api)
       if (res.length >= 6) {
         if (api) {
           return this.postService(api, { ...payload, code: res.join('') }, { async: 1 }).then((data) => {
-            this.debug("AAA:153 OTP verified", data)
+            if(data.error){
+              return this.displayMessage(LOCALE.INVALID_CODE, 1)
+            }
             let service = this.mget(_a.service) || 'otp-verified';
             this.triggerHandlers({ data, service })
           }).catch((e) => {
-            this.warn("AAA:157 OTP verify error", e)
-            this.triggerHandlers({ service: 'otp-failed', error: e })
+            this.warn("[checkForm] OTP verify error", e)
+            this.displayMessage(LOCALE.INVALID_CODE, 1)
           })
         }
       }
@@ -102,7 +102,6 @@ export default class dtk_otp extends dtk_common {
   onUiEvent(cmd, args = {}) {
     const service = args.service || cmd.get(_a.service);
     let status = cmd.status;
-    this.debug(`onUiEvent service = ${service}`, args, status, cmd);
     switch (service) {
       case _a.input:
         cmd.focus();
